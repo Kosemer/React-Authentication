@@ -1,6 +1,6 @@
 import { useContext, useRef, useState } from 'react';
 import AuthContext from '../../store/auth-context';
-
+import { useHistory } from 'react-router-dom';
 import classes from './AuthForm.module.css';
 
 const AuthForm = () => {
@@ -9,6 +9,7 @@ const AuthForm = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const [error, setError] = useState('');
+  const history = useHistory();
 
   const authCtx = useContext(AuthContext)
 
@@ -51,7 +52,10 @@ const AuthForm = () => {
       }
     })
     const data = await response.json();
-    authCtx.loginHandler(data.idToken)
+    const expirationTime = new Date(new Date().getTime() + (data.expiresIn * 1000)) 
+    authCtx.loginHandler(data.idToken, expirationTime.toISOString())
+    history.replace('/')  // Ezzel átirányítom a felhasználót a kezdőoldalra és a 'replace' miatt a vissza gomb nem működik.
+
     /*if(data.error.message === 'EMAIL_NOT_FOUND'){
       setError({
         title: "EMAIL_NOT_FOUND",
