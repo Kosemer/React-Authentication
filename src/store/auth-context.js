@@ -68,27 +68,70 @@ export const AuthContextProvider = (props) => {
     logoutTimer = setTimeout(logoutHandler, reminingTime); // A 'setTimeout'-nak átadom a 'logoutHandler'-t és a hátralévő időt (reminingTime), aminek számnak kell legyen.
   };
 
+  let [time, setTime] = useState(null);
+  
   useEffect(() => {
     if (tokenData) {
-      console.log(tokenData.duration);
-
+      //console.log(tokenData.duration);
       logoutTimer = setTimeout(logoutHandler, tokenData.duration);
+
+      // Hátralévő idő átalakítása és kiírása
+      let timer;
+      timer = setInterval(() => {
+        let seconds = Math.floor(tokenData.duration / 1000);
+        let minutes = Math.floor(seconds / 60);
+
+        //let hours = Math.floor(minutes / 60);
+
+        seconds = seconds % 60;
+        seconds = seconds <= 9 ? "0" + seconds : seconds;
+        minutes = minutes % 60;
+        //console.log(minutes, seconds);
+
+        let time2 = `${minutes}:${seconds}`;
+        setTime(time2);
+      }, 1000);
+
+      return () => clearInterval(timer);
     }
   }, [tokenData, logoutHandler]);
 
-  // Hátralévő idő átalakítása
-  let time = null
+  /*let time = null
   if(tokenData){
-  let seconds = Math.floor(tokenData.duration / 1000);
-  let minutes = Math.floor(seconds / 60);
-  //let hours = Math.floor(minutes / 60);
+        let seconds = Math.floor(tokenData.duration / 1000);
+        let minutes = Math.floor(seconds / 60);
+        //let hours = Math.floor(minutes / 60);
+      
+        seconds = seconds % 60;
+        minutes = minutes % 60;
+        console.log(minutes, seconds);
+      
+        time = `${minutes}:${seconds}`
+        }*/
 
-  seconds = seconds % 60;
-  minutes = minutes % 60;
-  console.log(minutes, seconds);
+  // Hátralévő idő átalakítása és kiírása
 
-   time = `${minutes}:${seconds}`
-  }
+  /*useEffect(() => {
+    if(tokenData){
+    let timer;
+    timer = setInterval(() => {
+      let seconds = Math.floor(tokenData.duration / 1000);
+      let minutes = Math.floor(seconds / 60);
+      
+      //let hours = Math.floor(minutes / 60);
+
+      seconds = seconds % 60;
+      seconds = seconds <=9 ? '0' + seconds : seconds
+      minutes = minutes % 60;
+      //console.log(minutes, seconds);
+
+      let time2 = `${minutes}:${seconds}`;
+      setTime(time2);
+    }, 1000);
+
+    return () => clearInterval(timer);
+}
+  }, [tokenData ,tokenData.duration]);*/
 
   const contextValue = {
     token: token,
