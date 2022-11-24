@@ -52,11 +52,10 @@ const AuthForm = () => {
       }
     })
     const data = await response.json();
-    const expirationTime = new Date(new Date().getTime() + (data.expiresIn * 1000)) 
-    authCtx.loginHandler(data.idToken, expirationTime.toISOString())
-    history.replace('/')  // Ezzel átirányítom a felhasználót a kezdőoldalra és a 'replace' miatt a vissza gomb nem működik.
 
-    /*if(data.error.message === 'EMAIL_NOT_FOUND'){
+
+    
+    if(data?.error?.message && data.error.message === 'EMAIL_NOT_FOUND' && data.error.message !== undefined){
       setError({
         title: "EMAIL_NOT_FOUND",
         message: "This email address is not registered.",
@@ -64,7 +63,7 @@ const AuthForm = () => {
       setIsLoading(false);
       return;
     }
-    if(data.error.message === 'EMAIL_EXISTS'){
+    if(data?.error?.message && data.error.message === 'EMAIL_EXISTS'){
       setError({
         title: "EMAIL_EXISTS",
         message: "This e-mail is already registered.",
@@ -72,7 +71,7 @@ const AuthForm = () => {
       setIsLoading(false);
       return;
     }
-    if(data.error.message === 'INVALID_PASSWORD'){
+    if(data?.error?.message && data.error.message === 'INVALID_PASSWORD'){
       setError({
         title: "INVALID_PASSWORD",
         message: "Invalid e-mail address or password!",
@@ -81,11 +80,14 @@ const AuthForm = () => {
       return;
     }
     else{
-    console.log(data.error.message)
-    console.log(data);
+    //console.log(data.error.message)
+    //console.log(data);
+    const expirationTime = new Date(new Date().getTime() + (data.expiresIn * 1000)) 
+    authCtx.loginHandler(data.idToken, expirationTime.toISOString())
+    history.replace('/')  // Ezzel átirányítom a felhasználót a kezdőoldalra és a 'replace' miatt a vissza gomb nem működik.
     setIsLoading(false);
     setError('');
-  }*/
+  }
   console.log(data);
   setIsLoading(false);
   setError('');

@@ -13,9 +13,11 @@ function App() {
   return (
     <Layout>
       <Switch>
-        <Route path="/" exact>
-          <HomePage />
-        </Route>
+        {authCtx.isLoggedIn && (
+          <Route path="/" exact>
+            <HomePage />
+          </Route>
+        )}
         {!authCtx.isLoggedIn && (
           <Route path="/auth">
             <AuthPage />
@@ -28,7 +30,7 @@ function App() {
         <Route path="*">
           {" "}
           {/* Ha a felhasználó bármit beír az URL-be és az nem létezik vagy védett akkor csak átirányítom a kezdőoldalra. */}
-          <Redirect to="/"></Redirect>
+          <Redirect to="/auth"></Redirect>
         </Route>
       </Switch>
     </Layout>

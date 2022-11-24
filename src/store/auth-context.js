@@ -88,8 +88,8 @@ export const AuthContextProvider = (props) => {
         minutes = minutes % 60;
         //console.log(minutes, seconds);
 
-        let time2 = `${minutes}:${seconds}`;
-        setTime(time2);
+        let time = `${minutes}:${seconds}`;
+        setTime(time);
       }, 1000);
 
       return () => clearInterval(timer);
@@ -138,7 +138,7 @@ export const AuthContextProvider = (props) => {
     isLoggedIn: userIsLoggedIn,
     loginHandler: loginHandler,
     logout: logoutHandler,
-    reminingTime: time, // Itt gond van, ha lejár az idő
+    reminingTime: time, 
   };
 
   return (
