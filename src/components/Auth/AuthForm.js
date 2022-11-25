@@ -55,7 +55,7 @@ const AuthForm = () => {
 
 
     
-    if(data?.error?.message && data.error.message === 'EMAIL_NOT_FOUND' && data.error.message !== undefined){
+    if(data?.error?.message && data.error.message === 'EMAIL_NOT_FOUND'){ // Ezzel a megoldással nem kapok hibaüzenetet, ha a szervertől nem jön error. "data?.error?.message" nélküle, ha nincs hiaüzenetem akkor "undefined" az error és összeomlik.
       setError({
         title: "EMAIL_NOT_FOUND",
         message: "This email address is not registered.",
